@@ -82,7 +82,7 @@ const initialAction = async () => {
         let answer = await inquirer.prompt({
             name: 'action',
             type: 'list',
-            message: 'What would you like to view?'
+            message: 'What would you like to view?',
             choices: [
                 'See Employees',
                 'See Departments',
@@ -94,8 +94,43 @@ const initialAction = async () => {
                 'Exit'
             ]
         });
+
         switch (answer.action) {
+            case 'See Employees':
+                employeeView();
+                break;
             
-        }
-    }
+            case 'See Departments':
+                departmentView();
+                break;
+
+            case 'See Roles':
+                roleView();
+                break;
+
+            case 'Add Employees':
+                employeeAdd();
+                break;
+
+            case 'Add Departments':
+                departmentAdd();
+                break;
+
+            case 'Add Roles':
+                roleAdd();
+                break;
+
+            case 'Update Employee Role':
+                employeeUpdate();
+                break;
+
+            case 'Exit':
+                connection.end();
+                break;
+        };
+
+    } catch (err) {
+        console.log(err);
+        initialAction();
+    };
 }

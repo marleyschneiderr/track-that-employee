@@ -97,7 +97,7 @@ const initialAction = async () => {
 
         switch (answer.action) {
             case 'See Employees':
-                employeeView();
+                seeEmployee();
                 break;
             
             case 'See Departments':
@@ -129,6 +129,24 @@ const initialAction = async () => {
                 break;
         };
 
+    } catch (err) {
+        console.log(err);
+        initialAction();
+    };
+}
+
+// viewing all employees when prompt is selected
+const seeEmployee = async () => {
+    console.log('Employee View');
+    try {
+        let query = 'Select * From employee';
+        connection.query(query, function (err, res) {
+            if (err) throw err;
+            let employeeArray = [];
+            res.forEach(employee => employeeArray.push(employee));
+            console.table(employeeArray);
+            initialAction();
+        });
     } catch (err) {
         console.log(err);
         initialAction();

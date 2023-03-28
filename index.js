@@ -304,6 +304,10 @@ const insertRole = async () => {
                     selectedDepartment = departments[i];
                 };
             }
+            let result = await connection.query("Insert INTO role SET ?, {
+                title: answer.title,
+                salary: answer.salary
+            })
         
     }
 }

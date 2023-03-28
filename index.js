@@ -313,3 +313,6 @@ const insertRole = async () => { // declaring insertRole function that is asyncr
     runProgram();
   }
 };
+
+// taking individual employee and updating what they d0
+

@@ -269,46 +269,47 @@ const newDepartment = async () => {
 
 // time to add a new role into the db
 const insertRole = async () => {
-    try {
-      console.log("Add Role");
-  
-      const departments = await connection.query("Select * From department");
-  
-      const answer = await inquirer.prompt([
-        {
-          name: "title",
-          type: "input",
-          message: "Please type the name of your new role.",
-        },
-        {
-          name: "salary",
-          type: "input",
-          message: "Please insert related salary to this role.",
-        },
-        {
-          name: "department",
-          type: "list",
-          choices: departments.map((department) => ({
-            name: department.department_name,
-            value: department.id,
-          })),
-          message: "List the department ID this role is associated with.",
-        },
-      ]);
-  
-      const department = departments.find((department) => department.id === answer.department);
-  
-      const result = await connection.query("INSERT INTO role SET ?", {
-        title: answer.title,
-        salary: answer.salary,
-        department_id: answer.department,
-      });
-  
-      console.log(`${answer.title} role inserted successfully.\n`);
-      runProgram();
-    } catch (err) {
-      console.log(err);
-      runProgram();
-    }
-  };
-  
+  try {
+    console.log("Add Role");
+
+    const departments = await connection.query("Select * From department");
+
+    const answer = await inquirer.prompt([
+      {
+        name: "title",
+        type: "input",
+        message: "Please type the name of your new role.",
+      },
+      {
+        name: "salary",
+        type: "input",
+        message: "Please insert related salary to this role.",
+      },
+      {
+        name: "department",
+        type: "list",
+        choices: departments.map((department) => ({
+          name: department.department_name,
+          value: department.id,
+        })),
+        message: "List the department ID this role is associated with.",
+      },
+    ]);
+
+    const department = departments.find(
+      (department) => department.id === answer.department
+    );
+
+    const result = await connection.query("INSERT INTO role SET ?", {
+      title: answer.title,
+      salary: answer.salary,
+      department_id: answer.department,
+    });
+
+    console.log(`${answer.title} role inserted successfully.\n`);
+    runProgram();
+  } catch (err) {
+    console.log(err);
+    runProgram();
+  }
+};

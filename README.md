@@ -25,7 +25,7 @@ To install this project, clone this repository on Github and open it in your per
 Inquirier Package, Node.js, MySQL
 
 ## Usage
-To use this project, open a terminal from where you saved your cloned repository and type in 'node index.js' to get started. 
+To use this project, open a terminal from where you saved your cloned repository and type in 'node index.js' to get started. Make sure prior to this, you start mysql by running /usr/local/mysql/bin/mysql -u root -p in your terminal, following by sourcing both databases: source db/schema.sql & source db/schema.
 
 ## Contributors 
 N/A, Marley Schneider

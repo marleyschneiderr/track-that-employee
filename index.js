@@ -268,7 +268,8 @@ const newDepartment = async () => {
 };
 
 // time to add a new role into the db
-const insertRole = async () => { // declaring insertRole function that is asyncro and inserts new role into the db
+const insertRole = async () => {
+  // declaring insertRole function that is asyncro and inserts new role into the db
   try {
     console.log("Add Role");
 
@@ -316,47 +317,49 @@ const insertRole = async () => { // declaring insertRole function that is asyncr
 
 // taking individual employee and updating what they do
 const changeEmployee = async () => {
-    try {
-        console.log('Update Employee');
+  try {
+    console.log("Update Employee");
 
-        let employees = await connection.query("Select * From employee");
+    let employees = await connection.query("Select * From employee");
 
-        let chooseEmployee = await inquirer.prompt([
-            {
-                name: 'employee',
-                type: 'list',
-                choices: employees.map((nameEmployee) => {
-                    return {
-                        name: nameEmployee.first_name + " " + nameEmployee.last_name,
-                        value: nameEmployee.id
-                    }
-                }),
-                message: 'Select an employee to update.'
-            }
-        ]);
+    let chooseEmployee = await inquirer.prompt([
+      {
+        name: "employee",
+        type: "list",
+        choices: employees.map((nameEmployee) => {
+          return {
+            name: nameEmployee.first_name + " " + nameEmployee.last_name,
+            value: nameEmployee.id,
+          };
+        }),
+        message: "Select an employee to update.",
+      },
+    ]);
 
-            let roles = await connection.query("Select * From role");
+    let roles = await connection.query("Select * From role");
 
-            let selectRole = await inquirer.prompt([
-                {
-                    name: 'role',
-                    type: 'list',
-                    choices: roles.map((roleTitle) => {
-                        return {
-                            name: roleTitle.title,
-                            value: roleTitle.id
-                        }
-                    }),
-                    message: 'Select the role to update the employee with.'
-                }
-            ]);
-        let output = await connection.query("Update employee SET ? WHERE ?", [{ role_id: selectRole.role }, { id: chooseEmployee.employee }]);
+    let selectRole = await inquirer.prompt([
+      {
+        name: "role",
+        type: "list",
+        choices: roles.map((roleTitle) => {
+          return {
+            name: roleTitle.title,
+            value: roleTitle.id,
+          };
+        }),
+        message: "Select the role to update the employee with.",
+      },
+    ]);
+    let output = await connection.query("Update employee SET ? WHERE ?", [
+      { role_id: selectRole.role },
+      { id: chooseEmployee.employee },
+    ]);
 
-        console.log(`The role was successfully changed.\n`);
-        runProgram();
-    } catch (err) {
-        console.log(err);
-        runProgram();
-    };
-}
-
+    console.log(`The role was successfully changed.\n`);
+    runProgram();
+  } catch (err) {
+    console.log(err);
+    runProgram();
+  }
+};

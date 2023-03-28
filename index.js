@@ -268,11 +268,11 @@ const newDepartment = async () => {
 };
 
 // time to add a new role into the db
-const insertRole = async () => {
+const insertRole = async () => { // declaring insertRole function that is asyncro and inserts new role into the db
   try {
     console.log("Add Role");
 
-    const departments = await connection.query("Select * From department");
+    const departments = await connection.query("Select * From department"); // uses connection object to query the db for ALL departments, the await term is used to complete the addition before moving on
 
     const answer = await inquirer.prompt([
       {

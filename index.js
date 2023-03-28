@@ -316,50 +316,55 @@ const insertRole = async () => {
 };
 
 // taking individual employee and updating what they do
-const changeEmployee = async () => {
+const changeEmployee = async () => { // declaring the employee change function to begin update
   try {
     console.log("Update Employee");
 
-    let employees = await connection.query("Select * From employee");
+    const employees = await connection.query("SELECT * FROM employee"); // updating employee is started in db, selecting specifics here
+    if (employees.length === 0) {
+      console.log("There are no employees to update.\n");
+      return runProgram(); // checking the employees array to see existing employees, if there is none, it says no employees are in there to update 
+    }
 
-    let chooseEmployee = await inquirer.prompt([
+    const { employee } = await inquirer.prompt([ // telling user to pick specific employee, dropdown menu starts with inquirer prompts/answers
       {
         name: "employee",
         type: "list",
-        choices: employees.map((nameEmployee) => {
-          return {
-            name: nameEmployee.first_name + " " + nameEmployee.last_name,
-            value: nameEmployee.id,
-          };
-        }),
+        choices: employees.map((employee) => ({
+          name: `${employee.first_name} ${employee.last_name}`,
+          value: employee.id,
+        })),
         message: "Select an employee to update.",
       },
     ]);
 
-    let roles = await connection.query("Select * From role");
+    const roles = await connection.query("SELECT * FROM role");
+    if (roles.length === 0) {
+      console.log("There are no roles to update the employee with.\n");
+      return runProgram();
+    }
 
-    let selectRole = await inquirer.prompt([
+    const { role } = await inquirer.prompt([
       {
         name: "role",
         type: "list",
-        choices: roles.map((roleTitle) => {
-          return {
-            name: roleTitle.title,
-            value: roleTitle.id,
-          };
-        }),
+        choices: roles.map((role) => ({
+          name: role.title,
+          value: role.id,
+        })),
         message: "Select the role to update the employee with.",
       },
     ]);
-    let output = await connection.query("Update employee SET ? WHERE ?", [
-      { role_id: selectRole.role },
-      { id: chooseEmployee.employee },
+
+    await connection.query("UPDATE employee SET ? WHERE ?", [
+      { role_id: role },
+      { id: employee },
     ]);
 
-    console.log(`The role was successfully changed.\n`);
-    runProgram();
-  } catch (err) {
-    console.log(err);
-    runProgram();
+    console.log("The role was successfully changed.\n");
+    return runProgram();
+  } catch (error) {
+    console.log("An error occurred while updating the employee:", error);
+    return runProgram();
   }
 };

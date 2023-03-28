@@ -116,7 +116,7 @@ const runProgram = async () => {
         break;
 
       case "Update Employee Role":
-        employeeUpdate();
+        changeEmployee();
         break;
 
       case "Exit":
@@ -314,5 +314,28 @@ const insertRole = async () => { // declaring insertRole function that is asyncr
   }
 };
 
-// taking individual employee and updating what they d0
+// taking individual employee and updating what they do
+const changeEmployee = async () => {
+    try {
+        console.log('Update Employee');
+
+        let employees = await connection.query("Select * From employee");
+
+        let chooseEmployee = await inquirer.prompt([
+            {
+                name: 'employee',
+                type: 'list',
+                choices: employees.map((nameEmployee) => {
+                    return {
+                        name: nameEmployee.first_name + " " + nameEmployee.last_name,
+                        value: nameEmployee.id
+                    }
+                }),
+                message: 'Select an employee to update.'
+            }
+        ]);
+
+        
+    }
+}
 

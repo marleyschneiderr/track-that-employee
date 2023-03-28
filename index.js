@@ -228,7 +228,7 @@ const newEmployee = async () => {
         }
       ]);
 
-      await connection.query('Do you want to put this INTO the employee database?', {
+      await connection.query('INSERT INTO employee SET ?', {
         first_name: answers.nameFirst,
         last_name: answers.nameLast,
         role_id: answers.idEmployeeRole,

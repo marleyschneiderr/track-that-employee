@@ -101,7 +101,7 @@ const initialAction = async () => {
                 break;
             
             case 'See Departments':
-                departmentView();
+                seeDepartment();
                 break;
 
             case 'See Roles':
@@ -142,9 +142,27 @@ const seeEmployee = async () => {
         let query = 'Select * From employee';
         connection.query(query, function (err, res) {
             if (err) throw err;
-            let employeeArray = [];
-            res.forEach(employee => employeeArray.push(employee));
-            console.table(employeeArray);
+            let employeeFunc = [];
+            res.forEach(employee => employeeFunc.push(employee));
+            console.table(employeeFunc);
+            initialAction();
+        });
+    } catch (err) {
+        console.log(err);
+        initialAction();
+    };
+}
+
+// the selection that allows the user to view all of the departments
+const seeDepartment = async () => {
+    console.log('Department View');
+    try {
+        let query = 'Select * From department';
+        connection.query(query, function (err, res) {
+            if (err) throw err;
+            let departmentFunc = [];
+            res.forEach(department => departmentFunc.push(department));
+            console.table(departmentFunc);
             initialAction();
         });
     } catch (err) {

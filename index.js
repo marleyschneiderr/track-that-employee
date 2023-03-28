@@ -278,7 +278,26 @@ const insertRole = async () => {
             {
                 name: 'title',
                 type: 'input',
+                message: 'Please type the name of your new role.'
+            },
+            {
+                name: 'salary',
+                type: 'input',
+                message: 'Please insert related salary to this role.'
+            },
+            {
+                name: 'idDepartment',
+                type: 'list',
+                choices: departments.map((idDepartment) => {
+                    return {
+                        name: idDepartment.department_name,
+                        value: idDepartment.id
+                    }
+                }),
+                message: 'List the department ID this role is associated with.',
             }
-        ])
+        ]);
+
+        
     }
 }

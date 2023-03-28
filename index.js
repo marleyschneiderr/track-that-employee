@@ -133,7 +133,7 @@ const runProgram = async () => {
 const seeEmployee = async () => {
   console.log("Employee View");
   try {
-    let query = "Select * From employee";
+    let query = "SELECT * FROM employee";
     connection.query(query, function (err, res) {
       if (err) throw err;
       let employeeFunc = [];
@@ -151,7 +151,7 @@ const seeEmployee = async () => {
 const seeDepartment = async () => {
   console.log("Department View");
   try {
-    let query = "Select * From department";
+    let query = "SELECT * FROM department";
     connection.query(query, function (err, res) {
       if (err) throw err;
       let departmentFunc = [];
@@ -169,7 +169,7 @@ const seeDepartment = async () => {
 const seeRole = async () => {
   console.log("Role View");
   try {
-    let query = "Select * From role";
+    let query = "SELECT * FROM role";
     connection.query(query, function (err, res) {
       if (err) throw err;
       let roleFunc = [];
@@ -188,8 +188,8 @@ const newEmployee = async () => {
   try {
     console.log("Add Employee");
     const [roles, managers] = await Promise.all([
-      connection.query("Select * From role"),
-      connection.query("Select * From employee"),
+      connection.query("SELECT * FROM role"),
+      connection.query("SELECT * FROM employee"),
     ]);
     const answers = await inquirer.prompt([
       {
@@ -273,7 +273,7 @@ const insertRole = async () => {
   try {
     console.log("Add Role");
 
-    const departments = await connection.query("Select * From department"); // uses connection object to query the db for ALL departments, the await term is used to complete the addition before moving on
+    const departments = await connection.query("SELECT * FROM department"); // uses connection object to query the db for ALL departments, the await term is used to complete the addition before moving on
 
     const answer = await inquirer.prompt([
       {

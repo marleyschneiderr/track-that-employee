@@ -350,7 +350,13 @@ const changeEmployee = async () => {
                     message: 'Select the role to update the employee with.'
                 }
             ]);
-        
-    }
+        let output = await connection.query("Update employee SET ? WHERE ?", [{ role_id: selectRole.role }, { id: chooseEmployee.employee }]);
+
+        console.log(`The role was successfully changed.\n`);
+        runProgram();
+    } catch (err) {
+        console.log(err);
+        runProgram();
+    };
 }
 

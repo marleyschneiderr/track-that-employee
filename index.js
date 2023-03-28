@@ -65,7 +65,7 @@ function connectToDatabase() {
   
   connectToDatabase()
     .then(() => {
-      initialAction();
+      runProgram();
     })
     .catch((err) => {
       console.error(err);
@@ -77,7 +77,7 @@ console.table(
 )
 
 // first question "what would you like to search?"
-const initialAction = async () => {
+const runProgram = async () => {
     try {
         let answer = await inquirer.prompt({
             name: 'action',
@@ -131,7 +131,7 @@ const initialAction = async () => {
 
     } catch (err) {
         console.log(err);
-        initialAction();
+        runProgram();
     };
 }
 
@@ -145,11 +145,11 @@ const seeEmployee = async () => {
             let employeeFunc = [];
             res.forEach(employee => employeeFunc.push(employee));
             console.table(employeeFunc);
-            initialAction();
+            runProgram();
         });
     } catch (err) {
         console.log(err);
-        initialAction();
+        runProgram();
     };
 }
 
@@ -163,11 +163,11 @@ const seeDepartment = async () => {
             let departmentFunc = [];
             res.forEach(department => departmentFunc.push(department));
             console.table(departmentFunc);
-            initialAction();
+            runProgram();
         });
     } catch (err) {
         console.log(err);
-        initialAction();
+        runProgram();
     };
 }
 
@@ -181,11 +181,11 @@ const seeRole = async () => {
             let roleFunc = [];
             res.forEach(role => roleFunc.push(role));
             console.table(roleFunc);
-            initialAction();
+            runProgram();
         });
     } catch (err) {
         console.log(err);
-        initialAction();
+        runProgram();
     };
 }
 
@@ -236,10 +236,10 @@ const newEmployee = async () => {
       });
 
       console.log(`${answers.nameFirst} ${answers.nameLast} inserted successfully.\n`);
-      initialAction();
+      runProgram();
     } catch (error) {
       console.log(error);
-      initialAction();
+      runProgram();
     }
   };
   

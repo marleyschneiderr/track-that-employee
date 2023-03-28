@@ -8,7 +8,7 @@ A user can view and manage a companies departments, roles, and employees so that
 
 
 ## Screenshot of Live Application
-![alt-text](./images/.png)
+![alt-text](./images/Employee-Tracker.png)
 
 ## Table of Contents
 * [Installation](#installation)

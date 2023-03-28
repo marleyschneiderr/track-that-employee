@@ -339,9 +339,17 @@ const changeEmployee = async () => {
 
             let selectRole = await inquirer.prompt([
                 {
-
+                    name: 'role',
+                    type: 'list',
+                    choices: roles.map((roleTitle) => {
+                        return {
+                            name: roleTitle.title,
+                            value: roleTitle.id
+                        }
+                    }),
+                    message: 'Select the role to update the employee with.'
                 }
-            ])
+            ]);
         
     }
 }

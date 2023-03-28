@@ -337,9 +337,9 @@ const changeEmployee = async () => {
 
             let roles = await connection.query("Select * From role");
 
-            lot selectRole = await inquirer.prompt([
+            let selectRole = await inquirer.prompt([
                 {
-                    
+
                 }
             ])
         

@@ -298,6 +298,12 @@ const insertRole = async () => {
             }
         ]);
 
+            let selectedDepartment;
+            for (i = 0; i < departments.length; i++) {
+                if(departments[i].department_id === answer.choice) {
+                    selectedDepartment = departments[i];
+                };
+            }
         
     }
 }

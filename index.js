@@ -112,7 +112,7 @@ const runProgram = async () => {
         break;
 
       case "Add Roles":
-        roleAdd();
+        insertRole();
         break;
 
       case "Update Employee Role":
@@ -266,3 +266,19 @@ const newDepartment = async () => {
 
   runProgram(); // continue the main program loop onto the next function
 };
+
+// time to add a new role into the db
+const insertRole = async () => {
+    try {
+        console.log('Add Role');
+
+        let departments = await connection.query("Select * From department")
+
+        let answer = await inquirer.prompt([
+            {
+                name: 'title',
+                type: 'input',
+            }
+        ])
+    }
+}

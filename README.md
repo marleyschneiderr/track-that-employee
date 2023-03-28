@@ -5,7 +5,7 @@ A command-line application that manages a companies employee database, using Nod
 A user can view and manage a companies departments, roles, and employees so that they can organize and plan their business accordingly.
 
 ## Walkthrough Tutorial of Application
-
+https://drive.google.com/file/d/1el7poBd9HXd-j2b17cSf5eZObciNBF64/view 
 
 ## Screenshot of Live Application
 ![alt-text](./images/Employee-Tracker.png)

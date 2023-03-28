@@ -19,227 +19,250 @@
 //   },
 // ];
 
-
-
 // inquirer.prompt(nextChoice).then((response) => {
- // console.log("response looks like", response);
-  // what shall we have happen now that we know what the user wants to do?
+// console.log("response looks like", response);
+// what shall we have happen now that we know what the user wants to do?
 
-  // response.confirm === response.password
-  //   ? console.log("Success!")
-  //   : console.log("You forgot your password already?!")
+// response.confirm === response.password
+//   ? console.log("Success!")
+//   : console.log("You forgot your password already?!")
 // });
 
-
 // all dependices used for this code
-const mysql = require('mysql');
-const inquirer = require('inquirer');
-const consoleTable = require('console.table');
-const util = require('util');
+const mysql = require("mysql");
+const inquirer = require("inquirer");
+const consoleTable = require("console.table");
+const util = require("util");
 
-// connect MySQL to 
+// connect MySQL to
 let connection = mysql.createConnection({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: '',
-    database: 'employee_db'
+  host: "localhost",
+  port: 3306,
+  user: "root",
+  password: "",
+  database: "employee_db",
 });
 
-// Using util function to convert the query() function into a promise-based function. 
+// Using util function to convert the query() function into a promise-based function.
 // Instead of passing a callback function to query(), I can now use async/await or .then/ catch to get query results.
 connection.query = util.promisify(connection.query);
 
 // start the application once connected
 function connectToDatabase() {
-    return new Promise((resolve, reject) => {
-      connection.connect((err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
-      });
+  return new Promise((resolve, reject) => {
+    connection.connect((err) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
     });
-  }
-  
-  connectToDatabase()
-    .then(() => {
-      runProgram();
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  });
+}
 
-// welcome message in the terminal 
-console.table(
-    "\n------------ WELCOME TO THE EMPLOYEE TRACKER ------------\n"
-)
+connectToDatabase()
+  .then(() => {
+    runProgram();
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+// welcome message in the terminal
+console.table("\n------------ WELCOME TO THE EMPLOYEE TRACKER ------------\n");
 
 // first question "what would you like to search?"
 const runProgram = async () => {
-    try {
-        let answer = await inquirer.prompt({
-            name: 'action',
-            type: 'list',
-            message: 'What would you like to view?',
-            choices: [
-                'See Employees',
-                'See Departments',
-                'See Roles',
-                'Add Employees',
-                'Add Departments',
-                'Add Roles',
-                'Update Employee Role',
-                'Exit'
-            ]
-        });
+  try {
+    let answer = await inquirer.prompt({
+      name: "action",
+      type: "list",
+      message: "What would you like to view?",
+      choices: [
+        "See Employees",
+        "See Departments",
+        "See Roles",
+        "Add Employees",
+        "Add Departments",
+        "Add Roles",
+        "Update Employee Role",
+        "Exit",
+      ],
+    });
 
-        switch (answer.action) {
-            case 'See Employees':
-                seeEmployee();
-                break;
-            
-            case 'See Departments':
-                seeDepartment();
-                break;
+    switch (answer.action) {
+      case "See Employees":
+        seeEmployee();
+        break;
 
-            case 'See Roles':
-                seeRole();
-                break;
+      case "See Departments":
+        seeDepartment();
+        break;
 
-            case 'Add Employees':
-                newEmployee();
-                break;
+      case "See Roles":
+        seeRole();
+        break;
 
-            case 'Add Departments':
-                departmentAdd();
-                break;
+      case "Add Employees":
+        newEmployee();
+        break;
 
-            case 'Add Roles':
-                roleAdd();
-                break;
+      case "Add Departments":
+        newDepartment();
+        break;
 
-            case 'Update Employee Role':
-                employeeUpdate();
-                break;
+      case "Add Roles":
+        roleAdd();
+        break;
 
-            case 'Exit':
-                connection.end();
-                break;
-        };
+      case "Update Employee Role":
+        employeeUpdate();
+        break;
 
-    } catch (err) {
-        console.log(err);
-        runProgram();
-    };
-}
+      case "Exit":
+        connection.end();
+        break;
+    }
+  } catch (err) {
+    console.log(err);
+    runProgram();
+  }
+};
 
 // viewing all employees when prompt is selected
 const seeEmployee = async () => {
-    console.log('Employee View');
-    try {
-        let query = 'Select * From employee';
-        connection.query(query, function (err, res) {
-            if (err) throw err;
-            let employeeFunc = [];
-            res.forEach(employee => employeeFunc.push(employee));
-            console.table(employeeFunc);
-            runProgram();
-        });
-    } catch (err) {
-        console.log(err);
-        runProgram();
-    };
-}
+  console.log("Employee View");
+  try {
+    let query = "Select * From employee";
+    connection.query(query, function (err, res) {
+      if (err) throw err;
+      let employeeFunc = [];
+      res.forEach((employee) => employeeFunc.push(employee));
+      console.table(employeeFunc);
+      runProgram();
+    });
+  } catch (err) {
+    console.log(err);
+    runProgram();
+  }
+};
 
 // the selection that allows the user to view all of the departments
 const seeDepartment = async () => {
-    console.log('Department View');
-    try {
-        let query = 'Select * From department';
-        connection.query(query, function (err, res) {
-            if (err) throw err;
-            let departmentFunc = [];
-            res.forEach(department => departmentFunc.push(department));
-            console.table(departmentFunc);
-            runProgram();
-        });
-    } catch (err) {
-        console.log(err);
-        runProgram();
-    };
-}
+  console.log("Department View");
+  try {
+    let query = "Select * From department";
+    connection.query(query, function (err, res) {
+      if (err) throw err;
+      let departmentFunc = [];
+      res.forEach((department) => departmentFunc.push(department));
+      console.table(departmentFunc);
+      runProgram();
+    });
+  } catch (err) {
+    console.log(err);
+    runProgram();
+  }
+};
 
 // the selection that allows the user to look through/view through all the roles of the employees
 const seeRole = async () => {
-    console.log('Role View');
-    try {
-        let query = 'Select * From role';
-        connection.query(query, function (err, res) {
-            if (err) throw err;
-            let roleFunc = [];
-            res.forEach(role => roleFunc.push(role));
-            console.table(roleFunc);
-            runProgram();
-        });
-    } catch (err) {
-        console.log(err);
-        runProgram();
-    };
-}
+  console.log("Role View");
+  try {
+    let query = "Select * From role";
+    connection.query(query, function (err, res) {
+      if (err) throw err;
+      let roleFunc = [];
+      res.forEach((role) => roleFunc.push(role));
+      console.table(roleFunc);
+      runProgram();
+    });
+  } catch (err) {
+    console.log(err);
+    runProgram();
+  }
+};
 
 // adding new employees to the database
 const newEmployee = async () => {
-    try {
-      console.log('Add Employee');
-      const [roles, managers] = await Promise.all([
-        connection.query('Select * From role'),
-        connection.query('Select * From employee')
-      ]);
-      const answers = await inquirer.prompt([
-        {
-          name: 'nameFirst',
-          type: 'input',
-          message: 'Please type the first name of the Employee.'
-        },
-        {
-          name: 'nameLast',
-          type: 'input',
-          message: 'Please type the last name of the Employee.'
-        },
-        {
-          name: 'idEmployeeRole',
-          type: 'list',
-          choices: roles.map(role => ({
-            name: role.title,
-            value: role.id
-          })),
-          message: "Please type the Employee role ID."
-        },
-        {
-          name: 'idManagerEmployee',
-          type: 'list',
-          choices: managers.map(manager => ({
-            name: `${manager.first_name} ${manager.last_name}`,
-            value: manager.id
-          })),
-          message: "Please type the Employee's Manager's ID."
-        }
-      ]);
+  try {
+    console.log("Add Employee");
+    const [roles, managers] = await Promise.all([
+      connection.query("Select * From role"),
+      connection.query("Select * From employee"),
+    ]);
+    const answers = await inquirer.prompt([
+      {
+        name: "nameFirst",
+        type: "input",
+        message: "Please type the first name of the Employee.",
+      },
+      {
+        name: "nameLast",
+        type: "input",
+        message: "Please type the last name of the Employee.",
+      },
+      {
+        name: "idEmployeeRole",
+        type: "list",
+        choices: roles.map((role) => ({
+          name: role.title,
+          value: role.id,
+        })),
+        message: "Please type the Employee role ID.",
+      },
+      {
+        name: "idManagerEmployee",
+        type: "list",
+        choices: managers.map((manager) => ({
+          name: `${manager.first_name} ${manager.last_name}`,
+          value: manager.id,
+        })),
+        message: "Please type the Employee's Manager's ID.",
+      },
+    ]);
 
-      await connection.query('INSERT INTO employee SET ?', {
-        first_name: answers.nameFirst,
-        last_name: answers.nameLast,
-        role_id: answers.idEmployeeRole,
-        manager_id: answers.idManagerEmployee
-      });
+    await connection.query("INSERT INTO employee SET ?", {
+      first_name: answers.nameFirst,
+      last_name: answers.nameLast,
+      role_id: answers.idEmployeeRole,
+      manager_id: answers.idManagerEmployee,
+    });
 
-      console.log(`${answers.nameFirst} ${answers.nameLast} inserted successfully.\n`);
-      runProgram();
-    } catch (error) {
-      console.log(error);
-      runProgram();
-    }
-  };
-  
+    console.log(
+      `${answers.nameFirst} ${answers.nameLast} inserted successfully.\n`
+    );
+    runProgram();
+  } catch (error) {
+    console.log(error);
+    runProgram();
+  }
+};
+
+// adding a new department into the database
+const newDepartment = async () => {
+  console.log("Add Department"); // displaying the message inside the console confirming that we are adding a department to the database
+
+  // asking the user to name the new department they are inputting using inquirer
+  let answer = await inquirer.prompt([
+    {
+      name: "nameDepartment",
+      type: "input",
+      message: "Please type the name of your new department.",
+      validate: (input) => input.trim().length > 0,
+    },
+  ]);
+
+  try {
+    let result = await connection.query("INSERT INTO department SET ?", {
+      department_name: answer.nameDepartment,
+    });
+    console.log(
+      `${answer.nameDepartment} inserted successfully to departments.\n`
+    );
+  } catch (err) {
+    console.log(err); // logs any errors that occur when running the SQL query to the console
+  }
+
+  runProgram(); // continue the main program loop onto the next function
+};

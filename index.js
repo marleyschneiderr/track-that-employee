@@ -105,11 +105,11 @@ const initialAction = async () => {
                 break;
 
             case 'See Roles':
-                roleView();
+                seeRole();
                 break;
 
             case 'Add Employees':
-                employeeAdd();
+                newEmployee();
                 break;
 
             case 'Add Departments':
@@ -170,3 +170,24 @@ const seeDepartment = async () => {
         initialAction();
     };
 }
+
+// the selection that allows the user to look through/view through all the roles of the employees
+const seeRole = async () => {
+    console.log('Role View');
+    try {
+        let query = 'Select * From role';
+        connection.query(query, function (err, res) {
+            if (err) throw err;
+            let roleFunc = [];
+            res.forEach(role => roleFunc.push(role));
+            console.table(roleFunc);
+            initialAction();
+        });
+    } catch (err) {
+        console.log(err);
+        initialAction();
+    };
+}
+
+// adding new employees to the database
+const newEmployee = async () =>

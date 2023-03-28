@@ -190,4 +190,56 @@ const seeRole = async () => {
 }
 
 // adding new employees to the database
-const newEmployee = async () =>
+const newEmployee = async () => {
+    try {
+      console.log('Add Employee');
+      const [roles, managers] = await Promise.all([
+        connection.query('Select * From role'),
+        connection.query('Select * From employee')
+      ]);
+      const answers = await inquirer.prompt([
+        {
+          name: 'nameFirst',
+          type: 'input',
+          message: 'Please type the first name of the Employee.'
+        },
+        {
+          name: 'nameLast',
+          type: 'input',
+          message: 'Please type the last name of the Employee.'
+        },
+        {
+          name: 'idEmployeeRole',
+          type: 'list',
+          choices: roles.map(role => ({
+            name: role.title,
+            value: role.id
+          })),
+          message: "Please type the Employee role ID."
+        },
+        {
+          name: 'idManagerEmployee',
+          type: 'list',
+          choices: managers.map(manager => ({
+            name: `${manager.first_name} ${manager.last_name}`,
+            value: manager.id
+          })),
+          message: "Please type the Employee's Manager's ID."
+        }
+      ]);
+
+      await connection.query('Do you want to put this INTO the employee database?', {
+        first_name: answers.nameFirst,
+        last_name: answers.nameLast,
+        role_id: answers.idEmployeeRole,
+        manager_id: answers.idManagerEmployee
+      });
+
+      console.log(`${answers.nameFirst} ${answers.nameLast} inserted successfully.\n`);
+      initialAction();
+    } catch (error) {
+      console.log(error);
+      initialAction();
+    }
+  };
+  
